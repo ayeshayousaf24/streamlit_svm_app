@@ -14,7 +14,7 @@ import requests
 import io
 
 # URL of the raw model file on GitHub
-model_url = 'https://raw.githubusercontent.com/username/repository/branch/your_path/svm_model.pkl'
+model_url = 'https://raw.githubusercontent.com/ayeshayousaf24/streamlit_svm_app/main/svm_model.pkl'
 
 # Download the model file
 response = requests.get(model_url)
