@@ -27,11 +27,11 @@ def load_model():
 def main():
     # Set page title and layout
     st.set_page_config(page_title="Product Purchase Prediction", page_icon="📊", layout="centered")
-
-    # Custom background color using markdown
+    
+    # Set background color with the right method
     st.markdown("""
     <style>
-    body {
+    .reportview-container {
         background-color: #D1E8E2;  /* Soft Blue background */
     }
     </style>
