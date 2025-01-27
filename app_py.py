@@ -29,28 +29,19 @@ def main():
     model = load_model()
     
     # Proceed if the model is loaded successfully
-    if model:
-        # Example user inputs for prediction (replace with your actual input logic)
-        Gender = st.selectbox("Gender", ['Male', 'Female'])
-        Age = st.slider("Age", 18, 100)
-        Estimated_salary = st.slider("Estimated Salary", 0, 100000)
+    # Example user inputs for prediction (replace with your actual input logic)
+    Gender = st.selectbox("Gender", ['Male', 'Female'])
+    Age = st.slider("Age", 18, 100)
+    Estimated_salary = st.slider("Estimated Salary", 0, 100000)
 
-        # Make prediction if all inputs are valid
-        if Gender and Age and Estimated_salary:
-            if Gender == 'Male':
-                Gender = 1  # Assuming Male = 1 and Female = 0 for the model input
-            else:
-                Gender = 0  # Female = 0
-            
-            # Make prediction with the model
-            prediction = model.predict([[Gender, Age, Estimated_salary]])
-            
-            st.write(f"Prediction: {prediction}")
+    #Predicted Code
+    if st.button('Predict'):
+        makeprediction = model.predict([[Gender, Age, Estimated_salary]])
+        output = round(makeprediction[0], 2)
+        if st.success(makeprediction):  # Replace 'condition' with your actual condition
+            st.success('This user can buy the product', format(output))
         else:
-            st.error("Please provide all inputs.")
-    else:
-        st.error("Model is not loaded. Please try again.")
+            st.error('This user cannot buy the product', format(output))
 
-# Run the Streamlit app
 if __name__ == '__main__':
     main()
