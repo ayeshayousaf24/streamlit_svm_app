@@ -3,3 +3,7 @@ streamlit
 requests
 pickle-mixin
 pip install joblib
+joblib==1.2.0
+scikit-learn==1.0.2
+streamlit==1.9.0
+requests==2.26.0
