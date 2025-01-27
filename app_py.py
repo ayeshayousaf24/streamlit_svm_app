@@ -32,7 +32,7 @@ def main():
     st.markdown("""
     <style>
     body {
-        background-color: #f1f8e9;  /* Light Green Background */
+        background-color: #D1E8E2;  /* Soft Blue background */
     }
     </style>
     """, unsafe_allow_html=True)
@@ -67,6 +67,6 @@ def main():
                 st.success("This user can buy the product! 🎉")
             else:
                 st.error("This user cannot buy the product. 😞")
-        
+
 if __name__ == '__main__':
     main()
