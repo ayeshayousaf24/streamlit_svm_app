@@ -1,8 +1,7 @@
-import pickle
+import joblib
 import requests
 import io
 import streamlit as st
-import numpy as np
 
 # Function to load the model
 def load_model():
@@ -13,14 +12,9 @@ def load_model():
     
     if response.status_code == 200:
         try:
-            # Load the model from the raw content of the response
-            model = pickle.load(io.BytesIO(response.content))
+            # Load the model using joblib from the raw content of the response
+            model = joblib.load(io.BytesIO(response.content))
             st.success("Model loaded successfully!")
-            
-            # Debugging step: Check the type of the loaded object
-            if not hasattr(model, 'predict'):
-                st.error("The loaded object is not a valid model. It does not have a 'predict' method.")
-                return None
             return model
         except Exception as e:
             st.error(f"Error loading model: {e}")
@@ -33,28 +27,22 @@ def load_model():
 def main():
     # Load the model
     model = load_model()
-
+    
+    # Proceed if the model is loaded successfully
     if model:
-        # Get user input (replace sliders with text input)
+        # Get user input (replacing sliders with text input)
         Gender = st.selectbox("Gender", ['Male', 'Female'])
-        Age = st.number_input("Age", min_value=18, max_value=100)
-        Estimated_salary = st.number_input("Estimated Salary", min_value=0, max_value=100000)
+        Age = st.number_input("Age", 18, 100)
+        Estimated_salary = st.number_input("Estimated Salary", 0, 100000)
 
-        # Convert Gender to numeric value (1 for Male, 0 for Female)
-        Gender = 1 if Gender == 'Male' else 0
-
-        # Ensure Age and Estimated Salary are numeric
-        Age = int(Age)
-        Estimated_salary = float(Estimated_salary)
-
-        # Prediction logic
+        # Predicted Code
         if st.button('Predict'):
-            try:
-                prediction = model.predict([[Gender, Age, Estimated_salary]])
-                output = round(prediction[0], 2)
-                st.success(f"Prediction: {output}")
-            except Exception as e:
-                st.error(f"Error during prediction: {e}")
+            # Make prediction
+            prediction = model.predict([[Gender, Age, Estimated_salary]])
+            output = round(prediction[0], 2)
+            st.write(f"Prediction: {output}")
+    else:
+        st.error("Model failed to load.")
 
 if __name__ == '__main__':
     main()
