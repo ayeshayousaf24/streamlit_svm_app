@@ -8,7 +8,7 @@ st.markdown(
     """
     <style>
     body {
-        background-color: #f4f4f9;
+        background-color: #e0f7fa;  /* Light teal background */
         color: #333;
         font-family: 'Arial', sans-serif;
     }
@@ -24,11 +24,12 @@ st.markdown(
         background-color: #f0f0f0;
     }
     .stButton {
-        background-color: #4CAF50;
-        color: white;
+        background-color: #4CAF50;  /* Green background */
+        color: white;  /* White text */
+        font-weight: bold;
     }
     .stButton:hover {
-        background-color: #45a049;
+        background-color: #45a049;  /* Slightly darker green for hover effect */
     }
     .stText {
         font-size: 18px;
