@@ -2,6 +2,7 @@ import pickle
 import requests
 import io
 import streamlit as st
+import numpy as np
 
 # Function to load the model
 def load_model():
@@ -15,6 +16,11 @@ def load_model():
             # Load the model from the raw content of the response
             model = pickle.load(io.BytesIO(response.content))
             st.success("Model loaded successfully!")
+            
+            # Debugging step: Check the type of the loaded object
+            if not hasattr(model, 'predict'):
+                st.error("The loaded object is not a valid model. It does not have a 'predict' method.")
+                return None
             return model
         except Exception as e:
             st.error(f"Error loading model: {e}")
@@ -27,40 +33,46 @@ def load_model():
 def main():
     # Load the model
     model = load_model()
-
-    if model:
-        # Get user input for prediction
-        st.title("Product Purchase Prediction")
+    
+    # Check if the model is loaded successfully
+    if model is not None:  # Use 'is not None' to explicitly check if the model is loaded
+        # Get user input (replacing sliders with text input)
+        Gender = st.selectbox("Gender", ['Male', 'Female'])
         
-        Gender = st.selectbox("Select Gender", ['Male', 'Female'])
-        
-        # Creating selectboxes for age and salary ranges instead of sliders
-        Age = st.selectbox("Select Age Range", ['18-30', '31-40', '41-50', '51-60', '61+'])
-        Estimated_salary = st.selectbox("Select Estimated Salary Range", ['0-20K', '20K-40K', '40K-60K', '60K-80K', '80K+'])
-        
-        # Convert gender to numerical values
-        gender_value = 0 if Gender == 'Male' else 1
-
-        # Converting Age and Salary to numeric values for the model
-        age_mapping = {'18-30': 25, '31-40': 35, '41-50': 45, '51-60': 55, '61+': 65}
-        salary_mapping = {'0-20K': 10000, '20K-40K': 30000, '40K-60K': 50000, '60K-80K': 70000, '80K+': 90000}
-        
-        # Convert selected ranges to numeric
-        Age = age_mapping[Age]
-        Estimated_salary = salary_mapping[Estimated_salary]
-
-        # Make prediction when the button is pressed
-        if st.button('Predict'):
-            try:
-                prediction = model.predict([[gender_value, Age, Estimated_salary]])
+        try:
+            Age = int(st.text_input("Enter Age (18-100)", ""))
+            Estimated_salary = float(st.text_input("Enter Estimated Salary (0-100000)", ""))
+            
+            if Age < 18 or Age > 100:
+                st.error("Please enter a valid Age between 18 and 100.")
+                return
+            if Estimated_salary < 0 or Estimated_salary > 100000:
+                st.error("Please enter a valid Estimated Salary between 0 and 100000.")
+                return
+            
+            # Proceed with prediction
+            if st.button('Predict'):
+                # Convert gender to binary (1 for Male, 0 for Female)
+                Gender = 1 if Gender == 'Male' else 0
                 
-                # Display results with a more user-friendly output
-                if prediction == 1:
-                    st.success("This user can buy the product!")
-                else:
-                    st.error("This user cannot buy the product.")
-            except Exception as e:
-                st.error(f"Error during prediction: {e}")
+                # Make the prediction
+                try:
+                    prediction = model.predict([[Gender, Age, Estimated_salary]])
+                    output = round(prediction[0], 2)
+                    st.success(f"Prediction: {output}")
+                    
+                    # Display result based on prediction
+                    if output == 1:
+                        st.write('This user can buy the product.')
+                    else:
+                        st.write('This user cannot buy the product.')
+                except Exception as e:
+                    st.error(f"Error during prediction: {e}")
+        
+        except ValueError:
+            st.error("Please enter valid numeric values for Age and Estimated Salary.")
+    else:
+        st.error("Model is not loaded. Please try again.")
 
 if __name__ == '__main__':
     main()
