@@ -21,7 +21,7 @@ response = requests.get(model_url)
 
 if response.status_code == 200:
     # Load the model from the downloaded content
-    model = pickle.load(io.BytesIO(response.content))
+    model = pickle.load(model_url)
     st.success("Model loaded successfully!")
 else:
     st.error("Failed to download the model!")
