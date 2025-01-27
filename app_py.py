@@ -2,6 +2,7 @@ import pickle
 import requests
 import io
 import streamlit as st
+import numpy as np
 
 # Function to load the model
 def load_model():
@@ -15,6 +16,11 @@ def load_model():
             # Load the model from the raw content of the response
             model = pickle.load(io.BytesIO(response.content))
             st.success("Model loaded successfully!")
+            
+            # Debugging step: Check the type of the loaded object
+            if not hasattr(model, 'predict'):
+                st.error("The loaded object is not a valid model. It does not have a 'predict' method.")
+                return None
             return model
         except Exception as e:
             st.error(f"Error loading model: {e}")
