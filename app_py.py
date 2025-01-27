@@ -1,4 +1,4 @@
-import joblib
+import pickle
 import requests
 import io
 import streamlit as st
@@ -12,8 +12,8 @@ def load_model():
     
     if response.status_code == 200:
         try:
-            # Load the model using joblib from the raw content of the response
-            model = joblib.load(io.BytesIO(response.content))
+            # Load the model from the raw content of the response
+            model = pickle.load(io.BytesIO(response.content))
             st.success("Model loaded successfully!")
             return model
         except Exception as e:
@@ -27,31 +27,40 @@ def load_model():
 def main():
     # Load the model
     model = load_model()
-    
-    # Proceed if the model is loaded successfully
+
     if model:
-        # Get user input (replacing sliders with text input)
-        Gender = st.selectbox("Gender", ['Male', 'Female'])
-        Age = st.number_input("Age", 18, 100)
-        Estimated_salary = st.number_input("Estimated Salary", 0, 100000)
+        # Get user input for prediction (Text inputs for a more intuitive experience)
+        st.title("Product Purchase Prediction")
+        
+        Gender = st.selectbox("Select Gender", ['Male', 'Female'])
+        Age = st.text_input("Enter Age", "")
+        Estimated_salary = st.text_input("Enter Estimated Salary", "")
+        
+        if Age and Estimated_salary:
+            # Convert the inputs to the appropriate types
+            try:
+                Age = int(Age)
+                Estimated_salary = float(Estimated_salary)
+            except ValueError:
+                st.error("Please enter valid numerical values for Age and Estimated Salary.")
+                return
 
-        # Predicted Code
-        if st.button('Predict'):
-            # Make prediction
-            # Convert 'Gender' to numeric (1 for Male, 0 for Female)
-            Gender = 1 if Gender == 'Male' else 0
-
-            # Ensure 'Age' and 'Estimated_salary' are integers or floats
-            Age = int(Age)
-            Estimated_salary = float(Estimated_salary)
-
-            # Make prediction
-            prediction = model.predict([[Gender, Age, Estimated_salary]])
-
-            output = round(prediction[0], 2)
-            st.write(f"Prediction: {output}")
-    else:
-        st.error("Model failed to load.")
+            # Make prediction when the button is pressed
+            if st.button('Predict'):
+                try:
+                    # Ensure the gender input is converted to a numerical value
+                    gender_value = 0 if Gender == 'Male' else 1
+                    prediction = model.predict([[gender_value, Age, Estimated_salary]])
+                    
+                    # Display results with a more user-friendly output
+                    if prediction == 1:
+                        st.success("This user can buy the product!")
+                    else:
+                        st.error("This user cannot buy the product.")
+                except Exception as e:
+                    st.error(f"Error during prediction: {e}")
+        else:
+            st.warning("Please enter both Age and Estimated Salary.")
 
 if __name__ == '__main__':
     main()
