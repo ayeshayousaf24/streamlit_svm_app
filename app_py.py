@@ -3,12 +3,12 @@ import requests
 import io
 import streamlit as st
 
-# Set background color using HTML
+# Apply background color and style
 st.markdown(
     """
     <style>
     body {
-        background-color: #e0f7fa;  /* Light teal background */
+        background-color: #f0f8ff;  /* Light blue background */
         color: #333;
         font-family: 'Arial', sans-serif;
     }
@@ -18,7 +18,7 @@ st.markdown(
         border-radius: 5px;
         padding: 10px;
         font-size: 16px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
     .stSelectbox:hover, .stNumberInput:hover, .stButton:hover {
         background-color: #f0f0f0;
@@ -76,7 +76,7 @@ def main():
     # Proceed if the model is loaded successfully
     if model:
         # Get user input (replacing sliders with text input)
-        st.markdown("<h2 style='color: #4CAF50;'>Predict Product Purchase</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='color: #4CAF50;'>Product Purchase Prediction</h2>", unsafe_allow_html=True)
 
         Gender = st.selectbox("Gender", ['Male', 'Female'])
         Age = st.number_input("Age", 0, 100)
