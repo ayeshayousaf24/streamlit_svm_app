@@ -49,9 +49,12 @@ def main():
             prediction = model.predict([[Gender, Age, Estimated_salary]])
 
             output = round(prediction[0], 2)
-            st.write(f"Prediction: {output}")
-    else:
-        st.error("Model failed to load.")
+            if st.success(prediction):
+                st.write(f"Prediction: This user can buy the product")
+            else:
+                st.write(f"Prediction: This user cannot buy the product")
+        else:
+            st.error("Model failed to load.")
 
 if __name__ == '__main__':
     main()
