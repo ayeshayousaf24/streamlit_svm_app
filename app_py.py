@@ -32,16 +32,16 @@ def main():
     # Example user inputs for prediction (replace with your actual input logic)
     Gender = st.selectbox("Gender", ['Male', 'Female'])
     Age = st.slider("Age", 18, 100)
-    Estimated_salary = st.slider("Estimated Salary", 0, 100000)
+    Estimated_salary = st.selectedbox("Estimated Salary", [0, 100000])
 
     #Predicted Code
     if st.button('Predict'):
         makeprediction = model.predict([[Gender, Age, Estimated_salary]])
         output = round(makeprediction[0], 2)
         if st.success(makeprediction):  # Replace 'condition' with your actual condition
-            st.success('This user can buy the product', format(output))
+            print('This user can buy the product', format(output))
         else:
-            st.error('This user cannot buy the product', format(output))
+            print('This user cannot buy the product', format(output))
 
 if __name__ == '__main__':
     main()
