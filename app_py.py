@@ -34,8 +34,8 @@ def main():
 
   #input Variables
   Gender = st.text_input('Gender')
-  Age = st.text_input('Age', min_value=0, max_value=120, step=1)
-  Estimated_salary = st.text_input('EstimatedSalary', min_value=0, step=1000000)
+  Age = st.text_input('Age')
+  Estimated_salary = st.text_input('EstimatedSalary')
 
   #Predicted Code
   if st.button('Predict'):
