@@ -55,5 +55,6 @@ def main():
                 st.success(f"Prediction: {output}")
             except Exception as e:
                 st.error(f"Error during prediction: {e}")
+
 if __name__ == '__main__':
     main()
