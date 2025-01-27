@@ -33,11 +33,21 @@ def main():
         st.title("Product Purchase Prediction")
         
         Gender = st.selectbox("Select Gender", ['Male', 'Female'])
-        Age = st.slider("Enter Age", 18, 100)
-        Estimated_salary = st.slider("Enter Estimated Salary", 0, 100000, step=1000)
+        
+        # Creating selectboxes for age and salary ranges instead of sliders
+        Age = st.selectbox("Select Age Range", ['18-30', '31-40', '41-50', '51-60', '61+'])
+        Estimated_salary = st.selectbox("Select Estimated Salary Range", ['0-20K', '20K-40K', '40K-60K', '60K-80K', '80K+'])
         
         # Convert gender to numerical values
         gender_value = 0 if Gender == 'Male' else 1
+
+        # Converting Age and Salary to numeric values for the model
+        age_mapping = {'18-30': 25, '31-40': 35, '41-50': 45, '51-60': 55, '61+': 65}
+        salary_mapping = {'0-20K': 10000, '20K-40K': 30000, '40K-60K': 50000, '60K-80K': 70000, '80K+': 90000}
+        
+        # Convert selected ranges to numeric
+        Age = age_mapping[Age]
+        Estimated_salary = salary_mapping[Estimated_salary]
 
         # Make prediction when the button is pressed
         if st.button('Predict'):
