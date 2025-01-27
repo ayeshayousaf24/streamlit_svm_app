@@ -14,7 +14,7 @@ def load_model():
         try:
             # Load the model using joblib from the raw content of the response
             model = joblib.load(io.BytesIO(response.content))
-            st.success("Model loaded successfully!", icon="✅")
+            st.success("Model loaded successfully!")
             return model
         except Exception as e:
             st.error(f"Error loading model: {e}")
@@ -26,56 +26,56 @@ def load_model():
 # Main function to run the app
 def main():
     # Set page title and layout
-    st.set_page_config(page_title="Product Purchase Prediction", page_icon="📊", layout="wide")
+    st.set_page_config(page_title="Product Purchase Prediction", page_icon="📊", layout="centered")
 
     # Custom styling to enhance design
     st.markdown("""
     <style>
     body {
         font-family: 'Arial', sans-serif;
-        background-color: #f5f5f5;
+        background-color: #f0f0f5;
     }
-    .main {
+    .main-container {
         background-color: #ffffff;
-        padding: 2rem;
+        padding: 3rem;
         border-radius: 15px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-top: 20px;
     }
     .header {
         color: #4CAF50;
-        font-size: 3rem;
-        font-weight: 700;
+        font-size: 2.5rem;
+        font-weight: bold;
         text-align: center;
-        border-bottom: 2px solid #4CAF50;
-        padding-bottom: 10px;
+        margin-bottom: 20px;
     }
     .subheader {
         color: #555;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
     .selectbox, .number_input {
         font-size: 1.2rem;
         margin-top: 10px;
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         border-radius: 10px;
         border: 1px solid #ddd;
         background-color: #f9f9f9;
     }
-    .prediction-button {
+    .predict-btn {
         background-color: #4CAF50;
         color: white;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         border: none;
         padding: 12px 25px;
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        margin-top: 20px;
     }
-    .prediction-button:hover {
+    .predict-btn:hover {
         background-color: #45a049;
     }
     .prediction-result {
@@ -98,26 +98,17 @@ def main():
 
     # Proceed if the model is loaded successfully
     if model:
-        st.markdown('<div class="main">', unsafe_allow_html=True)
-        st.markdown('<h1 class="header">Welcome to the Product Purchase Predictor</h1>', unsafe_allow_html=True)
-        st.markdown('<p class="subheader">Please provide the information below to make a prediction.</p>', unsafe_allow_html=True)
+        st.markdown('<div class="main-container">', unsafe_allow_html=True)
+        st.markdown('<h1 class="header">Product Purchase Prediction</h1>', unsafe_allow_html=True)
+        st.markdown('<p class="subheader">Please enter the details to predict if a user can buy the product.</p>', unsafe_allow_html=True)
         
         # Get user input (replacing sliders with selectbox and number input)
-        Gender = st.selectbox("Select Gender", ['Male', 'Female'], index=0, key="gender", help="Select the gender of the user", 
-                              label_visibility="visible", format_func=lambda x: f"{x}", 
-                              use_container_width=True, css_class="selectbox")
-
-        Age = st.number_input("Enter Age", min_value=0, max_value=100, step=1, value=25, key="age", 
-                              label_visibility="visible", help="Enter the user's age", 
-                              format="%.0f", css_class="number_input")
-
-        Estimated_salary = st.number_input("Enter Estimated Salary", min_value=0, max_value=100000, step=5000, value=30000, 
-                                           key="salary", label_visibility="visible", help="Enter the estimated salary of the user", 
-                                           format="%.2f", css_class="number_input")
+        Gender = st.selectbox("Select Gender", ['Male', 'Female'])
+        Age = st.number_input("Enter Age", min_value=0, max_value=100, step=1, value=25)
+        Estimated_salary = st.number_input("Enter Estimated Salary", min_value=0, max_value=100000, step=5000, value=30000)
 
         # Create a prediction button
-        if st.button('Make Prediction', key="predict", help="Click here to predict the result", 
-                     use_container_width=True, css_class="prediction-button"):
+        if st.button('Make Prediction', key="predict"):
             
             # Convert 'Gender' to numeric (1 for Male, 0 for Female)
             Gender = 1 if Gender == 'Male' else 0
