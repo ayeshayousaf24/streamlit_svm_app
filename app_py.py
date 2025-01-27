@@ -38,7 +38,16 @@ def main():
         # Predicted Code
         if st.button('Predict'):
             # Make prediction
+            # Convert 'Gender' to numeric (1 for Male, 0 for Female)
+            Gender = 1 if Gender == 'Male' else 0
+
+            # Ensure 'Age' and 'Estimated_salary' are integers or floats
+            Age = int(Age)
+            Estimated_salary = float(Estimated_salary)
+
+            # Make prediction
             prediction = model.predict([[Gender, Age, Estimated_salary]])
+
             output = round(prediction[0], 2)
             st.write(f"Prediction: {output}")
     else:
