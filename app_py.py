@@ -33,46 +33,27 @@ def load_model():
 def main():
     # Load the model
     model = load_model()
-    
-    # Check if the model is loaded successfully
-    if model is not None:  # Use 'is not None' to explicitly check if the model is loaded
-        # Get user input (replacing sliders with text input)
-        Gender = st.selectbox("Gender", ['Male', 'Female'])
-        
-        try:
-            Age = int(st.text_input("Enter Age (18-100)", ""))
-            Estimated_salary = float(st.text_input("Enter Estimated Salary (0-100000)", ""))
-            
-            if Age < 18 or Age > 100:
-                st.error("Please enter a valid Age between 18 and 100.")
-                return
-            if Estimated_salary < 0 or Estimated_salary > 100000:
-                st.error("Please enter a valid Estimated Salary between 0 and 100000.")
-                return
-            
-            # Proceed with prediction
-            if st.button('Predict'):
-                # Convert gender to binary (1 for Male, 0 for Female)
-                Gender = 1 if Gender == 'Male' else 0
-                
-                # Make the prediction
-                try:
-                    prediction = model.predict([[Gender, Age, Estimated_salary]])
-                    output = round(prediction[0], 2)
-                    st.success(f"Prediction: {output}")
-                    
-                    # Display result based on prediction
-                    if output == 1:
-                        st.write('This user can buy the product.')
-                    else:
-                        st.write('This user cannot buy the product.')
-                except Exception as e:
-                    st.error(f"Error during prediction: {e}")
-        
-        except ValueError:
-            st.error("Please enter valid numeric values for Age and Estimated Salary.")
-    else:
-        st.error("Model is not loaded. Please try again.")
 
+    if model:
+        # Get user input (replace sliders with text input)
+        Gender = st.selectbox("Gender", ['Male', 'Female'])
+        Age = st.number_input("Age", min_value=18, max_value=100)
+        Estimated_salary = st.number_input("Estimated Salary", min_value=0, max_value=100000)
+
+        # Convert Gender to numeric value (1 for Male, 0 for Female)
+        Gender = 1 if Gender == 'Male' else 0
+
+        # Ensure Age and Estimated Salary are numeric
+        Age = int(Age)
+        Estimated_salary = float(Estimated_salary)
+
+        # Prediction logic
+        if st.button('Predict'):
+            try:
+                prediction = model.predict([[Gender, Age, Estimated_salary]])
+                output = round(prediction[0], 2)
+                st.success(f"Prediction: {output}")
+            except Exception as e:
+                st.error(f"Error during prediction: {e}")
 if __name__ == '__main__':
     main()
