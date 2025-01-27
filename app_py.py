@@ -28,8 +28,8 @@ def main():
     # Load the model
     model = load_model()
     
-    # Proceed if the model is loaded successfully
-    if model:
+    # Check if the model is loaded successfully
+    if model is not None:  # Use 'is not None' to explicitly check if the model is loaded
         # Get user input (replacing sliders with text input)
         Gender = st.selectbox("Gender", ['Male', 'Female'])
         
