@@ -28,29 +28,30 @@ def main():
     # Set page title and layout
     st.set_page_config(page_title="Product Purchase Prediction", page_icon="📊", layout="centered")
 
-    # Custom styling to enhance design
+    # Custom styling to enhance design with colors
     st.markdown("""
     <style>
     body {
         font-family: 'Arial', sans-serif;
-        background-color: #f0f0f5;
+        background-color: #e3f2fd;  /* Light Blue Background */
+        color: #333;
     }
     .main-container {
-        background-color: #ffffff;
+        background-color: #ffffff; /* White Background for the card */
         padding: 3rem;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-top: 20px;
+        border-radius: 20px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
     }
     .header {
-        color: #4CAF50;
+        color: #0288d1;  /* Blue header */
         font-size: 2.5rem;
         font-weight: bold;
         text-align: center;
         margin-bottom: 20px;
     }
     .subheader {
-        color: #555;
+        color: #1976d2;  /* Dark Blue for the subheading */
         font-size: 1.3rem;
         text-align: center;
         margin-bottom: 30px;
@@ -61,11 +62,11 @@ def main():
         width: 100%;
         padding: 12px;
         border-radius: 10px;
-        border: 1px solid #ddd;
-        background-color: #f9f9f9;
+        border: 1px solid #90caf9;  /* Light Blue border */
+        background-color: #e1f5fe;  /* Very light blue background */
     }
     .predict-btn {
-        background-color: #4CAF50;
+        background-color: #4caf50;  /* Green button */
         color: white;
         font-size: 1.3rem;
         border: none;
@@ -76,7 +77,7 @@ def main():
         margin-top: 20px;
     }
     .predict-btn:hover {
-        background-color: #45a049;
+        background-color: #388e3c;  /* Darker green on hover */
     }
     .prediction-result {
         text-align: center;
@@ -85,14 +86,14 @@ def main():
         margin-top: 20px;
     }
     .success {
-        color: #388e3c;
+        color: #388e3c;  /* Green for success */
     }
     .failure {
-        color: #d32f2f;
+        color: #d32f2f;  /* Red for failure */
     }
     </style>
     """, unsafe_allow_html=True)
-    
+
     # Load the model
     model = load_model()
 
