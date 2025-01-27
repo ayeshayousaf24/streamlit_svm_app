@@ -76,7 +76,7 @@ def main():
     # Proceed if the model is loaded successfully
     if model:
         # Get user input (replacing sliders with text input)
-        st.markdown("<h2 style='color: #4CAN50;'>Product Purchase Prediction</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='color: #1e8449 ;'>Product Purchase Prediction</h2>", unsafe_allow_html=True)
 
         Gender = st.selectbox("Gender", ['Male', 'Female'])
         Age = st.number_input("Age", 0, 100)
