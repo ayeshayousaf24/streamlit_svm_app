@@ -3,6 +3,50 @@ import requests
 import io
 import streamlit as st
 
+# Set background color using HTML
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #f4f4f9;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+    }
+    .stSelectbox, .stNumberInput, .stButton {
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .stSelectbox:hover, .stNumberInput:hover, .stButton:hover {
+        background-color: #f0f0f0;
+    }
+    .stButton {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .stButton:hover {
+        background-color: #45a049;
+    }
+    .stText {
+        font-size: 18px;
+        color: #333;
+    }
+    .stSuccess {
+        color: green;
+        font-weight: bold;
+    }
+    .stError {
+        color: red;
+        font-weight: bold;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Function to load the model
 def load_model():
     model_url = 'https://raw.githubusercontent.com/ayeshayousaf24/streamlit_svm_app/main/svm_model.pkl'
@@ -25,33 +69,21 @@ def load_model():
 
 # Main function to run the app
 def main():
-    # Set page title and layout
-    st.set_page_config(page_title="Product Purchase Prediction", page_icon="📊", layout="centered")
-    
-    # Set background color with the right method
-    st.markdown("""
-    <style>
-    .reportview-container {
-        background-color: #D1E8E2;  /* Soft Blue background */
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
     # Load the model
     model = load_model()
-
+    
     # Proceed if the model is loaded successfully
     if model:
-        st.title("Product Purchase Prediction")
-        
-        # Get user input (replacing sliders with selectbox and number input)
-        Gender = st.selectbox("Select Gender", ['Male', 'Female'])
-        Age = st.number_input("Enter Age", min_value=0, max_value=100, step=1, value=25)
-        Estimated_salary = st.number_input("Enter Estimated Salary", min_value=0, max_value=100000, step=5000, value=30000)
+        # Get user input (replacing sliders with text input)
+        st.markdown("<h2 style='color: #4CAF50;'>Predict Product Purchase</h2>", unsafe_allow_html=True)
 
-        # Create a prediction button
-        if st.button('Make Prediction', key="predict"):
-            
+        Gender = st.selectbox("Gender", ['Male', 'Female'])
+        Age = st.number_input("Age", 0, 100)
+        Estimated_salary = st.number_input("Estimated Salary", 0, 100000)
+
+        # Predicted Code
+        if st.button('Predict'):
+            # Make prediction
             # Convert 'Gender' to numeric (1 for Male, 0 for Female)
             Gender = 1 if Gender == 'Male' else 0
 
@@ -61,12 +93,12 @@ def main():
 
             # Make prediction
             prediction = model.predict([[Gender, Age, Estimated_salary]])
-            
-            # Display results with a personalized message
-            if prediction == 1:
-                st.success("This user can buy the product! 🎉")
+
+            output = round(prediction[0], 2)
+            if prediction[0] == 1:
+                st.success(f"Prediction: This user can buy the product. Confidence: {output}%")
             else:
-                st.error("This user cannot buy the product. 😞")
+                st.error(f"Prediction: This user cannot buy the product. Confidence: {output}%")
 
 if __name__ == '__main__':
     main()
