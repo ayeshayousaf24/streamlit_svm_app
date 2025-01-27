@@ -33,7 +33,7 @@ def main():
     <style>
     body {
         font-family: 'Arial', sans-serif;
-        background-color: #e3f2fd;  /* Light Blue Background */
+        background-color: #f1f8e9;  /* Light Green Background */
         color: #333;
     }
     .main-container {
@@ -44,14 +44,14 @@ def main():
         margin-top: 30px;
     }
     .header {
-        color: #0288d1;  /* Blue header */
+        color: #388e3c;  /* Green header */
         font-size: 2.5rem;
         font-weight: bold;
         text-align: center;
         margin-bottom: 20px;
     }
     .subheader {
-        color: #1976d2;  /* Dark Blue for the subheading */
+        color: #1b5e20;  /* Dark Green for the subheading */
         font-size: 1.3rem;
         text-align: center;
         margin-bottom: 30px;
@@ -62,8 +62,8 @@ def main():
         width: 100%;
         padding: 12px;
         border-radius: 10px;
-        border: 1px solid #90caf9;  /* Light Blue border */
-        background-color: #e1f5fe;  /* Very light blue background */
+        border: 1px solid #81c784;  /* Light Green border */
+        background-color: #c8e6c9;  /* Very light green background */
     }
     .predict-btn {
         background-color: #4caf50;  /* Green button */
