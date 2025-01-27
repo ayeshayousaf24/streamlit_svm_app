@@ -9,8 +9,22 @@ Original file is located at
 
 import pickle
 import streamlit as st
+import pickle
+import requests
+import io
 
-model = pickle.load(open('/content/svm_model.pkl', 'rb'))
+# URL of the raw model file on GitHub
+model_url = 'https://raw.githubusercontent.com/username/repository/branch/your_path/svm_model.pkl'
+
+# Download the model file
+response = requests.get(model_url)
+
+if response.status_code == 200:
+    # Load the model from the downloaded content
+    model = pickle.load(io.BytesIO(response.content))
+    st.success("Model loaded successfully!")
+else:
+    st.error("Failed to download the model!")
 
 def main():
   st.title('Product Buying Prediction App')
