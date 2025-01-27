@@ -32,7 +32,7 @@ def main():
     if model:
         # Get user input (replacing sliders with text input)
         Gender = st.selectbox("Gender", ['Male', 'Female'])
-        Age = st.number_input("Age", 18, 100)
+        Age = st.number_input("Age", 0, 100)
         Estimated_salary = st.number_input("Estimated Salary", 0, 100000)
 
         # Predicted Code
@@ -52,9 +52,7 @@ def main():
             if st.success(prediction):
                 st.write(f"Prediction: This user can buy the product")
             else:
-                st.write(f"Prediction: This user cannot buy the product")
-        else:
-            st.error("Model failed to load.")
+                st.error(f"Prediction: This user cannot buy the product")
 
 if __name__ == '__main__':
     main()
